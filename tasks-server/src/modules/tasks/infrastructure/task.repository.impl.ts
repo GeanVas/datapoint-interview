@@ -13,23 +13,33 @@ export class TaskRepository implements ITaskRepository {
   async findAllByUser(userId: number): Promise<Task[]> {
     const tasks = await this.repo.find({ where: { userId } });
 
-    return tasks.map((t) => new Task(t.id, t.title, t.completed, t.userId));
+    return tasks.map(
+      (t) => new Task(t.id, t.title, t.status, t.date, t.userId),
+    );
   }
 
   async create(task: Task): Promise<Task> {
     const saved = await this.repo.save({
       title: task.title,
-      completed: task.completed,
+      date: task.date,
+      status: task.status,
       userId: task.userId,
     });
 
-    return new Task(saved.id, saved.title, saved.completed, saved.userId);
+    return new Task(
+      saved.id,
+      saved.title,
+      saved.status,
+      saved.date,
+      saved.userId,
+    );
   }
 
   async update(task: Task): Promise<Task> {
     await this.repo.update(task.id, {
       title: task.title,
-      completed: task.completed,
+      status: task.status,
+      date: task.date,
     });
 
     const updated = await this.repo.findOneBy({ id: task.id });
@@ -41,7 +51,8 @@ export class TaskRepository implements ITaskRepository {
     return new Task(
       updated.id,
       updated.title,
-      updated.completed,
+      updated.status,
+      updated.date,
       updated.userId,
     );
   }

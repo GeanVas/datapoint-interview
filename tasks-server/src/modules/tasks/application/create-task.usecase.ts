@@ -9,8 +9,8 @@ export class CreateTaskUseCase {
     private readonly repo: taskRepository.ITaskRepository,
   ) {}
 
-  execute(title: string, userId: number) {
-    const task = new Task(0, title, false, userId);
+  execute(title: string, userId: number, date: Date) {
+    const task = new Task(0, title, 'pending', date, userId);
     return this.repo.create(task);
   }
 }

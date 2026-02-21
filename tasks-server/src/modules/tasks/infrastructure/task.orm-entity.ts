@@ -8,8 +8,11 @@ export class TaskOrmEntity {
   @Column()
   title: string;
 
-  @Column({ default: false })
-  completed: boolean;
+  @Column({ default: 'pending' })
+  status: string;
+
+  @Column()
+  date: Date;
 
   @Column()
   userId: number;
