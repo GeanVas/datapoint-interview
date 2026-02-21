@@ -1,0 +1,51 @@
+<main class="grid place-content-center h-dvh">
+  <div class="w-full max-w-110">
+    <div
+      class="bg-white shadow-xl shadow-slate-200/50 border border-slate-200 rounded-xl p-8 md:p-10"
+    >
+      <div class="mb-8">
+        <h2 class="text-3xl font-black leading-tight tracking-[-0.033em] mb-2">Welcome!</h2>
+      </div>
+
+      <form class="space-y-5" [formGroup]="form" (ngSubmit)="authenticate()">
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-slate-700 ml-1"> Username </label>
+          <div class="relative">
+            <input
+              class="w-full rounded-lg border border-slate-200 px-4 py-3.5 text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all outline-none placeholder:text-slate-400"
+              placeholder="Enter your username"
+              type="text"
+              formControlName="username"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="flex justify-between items-center ml-1">
+            <label class="text-sm font-semibold text-slate-700"> Password </label>
+          </div>
+          <div class="relative flex items-center">
+            <input
+              class="w-full rounded-lg border border-slate-200 px-4 py-3.5 text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all outline-none pr-12 placeholder:text-slate-400"
+              placeholder="Enter your password"
+              type="password"
+              formControlName="password"
+            />
+            <button
+              class="absolute right-4 text-slate-400 hover:text-blue-500 transition-colors"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[22px]"></span>
+            </button>
+          </div>
+        </div>
+
+        <button
+          class="w-full bg-blue-500 disabled:bg-blue-200 cursor-pointer disabled:cursor-not-allowed text-white hover:bg-blue-500/90 font-bold py-4 rounded-lg shadow-lg shadow-blue-500/20 transition-all mt-2"
+          [disabled]="!form.valid"
+        >
+          Log In
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
