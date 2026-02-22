@@ -20,7 +20,8 @@
 
 ### Servicios y Herramientas de Despliegue
 - **Docker**: Containerización de la aplicación
-- **Fly.io**: Plataforma de despliegue de contenedores (configurado en fly.toml)
+- **Cloudflare Pages**: Despliegue del frontend (`tasks-client`)
+- **Render**: Despliegue del backend (`tasks-server`) mediante Docker utilizando la image construida con Dockerfile.
 - **pnpm**: Gestor de paquetes rápido y eficiente
 
 ---
