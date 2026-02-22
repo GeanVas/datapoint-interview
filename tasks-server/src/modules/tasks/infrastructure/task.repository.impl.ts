@@ -11,35 +11,55 @@ export class TaskRepository implements ITaskRepository {
   ) {}
 
   async findAllByUser(userId: number): Promise<Task[]> {
-    const tasks = await this.repo.find({ where: { userId } });
+    const tasks = await this.repo.find({ where: { ownerId: userId } });
 
     return tasks.map(
-      (t) => new Task(t.id, t.title, t.status, t.date, t.userId),
+      (t) =>
+        new Task(
+          t.id,
+          t.title,
+          t.description,
+          t.status,
+          t.priority,
+          t.dueDate,
+          t.ownerId,
+          t.createdAt,
+          t.updatedAt,
+        ),
     );
   }
 
   async create(task: Task): Promise<Task> {
     const saved = await this.repo.save({
       title: task.title,
-      date: task.date,
+      description: task.description,
+      dueDate: task.dueDate,
       status: task.status,
-      userId: task.userId,
+      priority: task.priority,
+      ownerId: task.ownerId,
     });
 
     return new Task(
       saved.id,
       saved.title,
+      saved.description,
       saved.status,
-      saved.date,
-      saved.userId,
+      saved.priority,
+      saved.dueDate,
+      saved.ownerId,
+      saved.createdAt,
+      saved.updatedAt,
     );
   }
 
   async update(task: Task): Promise<Task> {
     await this.repo.update(task.id, {
       title: task.title,
+      description: task.description,
       status: task.status,
-      date: task.date,
+      priority: task.priority,
+      dueDate: task.dueDate,
+      updatedAt: new Date(),
     });
 
     const updated = await this.repo.findOneBy({ id: task.id });
@@ -51,9 +71,13 @@ export class TaskRepository implements ITaskRepository {
     return new Task(
       updated.id,
       updated.title,
+      updated.description,
       updated.status,
-      updated.date,
-      updated.userId,
+      updated.priority,
+      updated.dueDate,
+      updated.ownerId,
+      updated.createdAt,
+      updated.updatedAt,
     );
   }
 

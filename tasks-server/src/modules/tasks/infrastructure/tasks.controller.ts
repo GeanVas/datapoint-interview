@@ -15,6 +15,8 @@ import { CreateTaskUseCase } from '../application/create-task.usecase';
 import { UpdateTaskUseCase } from '../application/update-task.usecase';
 import { DeleteTaskUseCase } from '../application/delete-task.usecase';
 import * as authRequestInterface from 'src/modules/auth/infrastructure/auth-request.interface';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('tasks')
@@ -33,22 +35,32 @@ export class TasksController {
 
   @Post()
   create(
-    @Body() body: { title: string },
+    @Body() body: CreateTaskDto,
     @Request() req: authRequestInterface.AuthRequest,
   ) {
-    return this.createTask.execute(body.title, req.user.sub, new Date());
+    return this.createTask.execute(
+      body.title,
+      body.description,
+      req.user.sub,
+      body.date,
+      body.status,
+      body.priority,
+    );
   }
 
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() body: { title?: string; completed?: boolean },
+    @Body() body: UpdateTaskDto,
     @Request() req: authRequestInterface.AuthRequest,
   ) {
     return this.updateTask.execute(
       +id,
       body.title,
-      body.completed,
+      body.description,
+      body.dueDate,
+      body.status,
+      body.priority,
       req.user.sub,
     );
   }

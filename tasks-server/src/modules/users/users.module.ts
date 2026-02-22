@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserOrmEntity } from './infrastructure/user.orm-entity';
 import { UserRepository } from './infrastructure/user.repository.impl';
 import { CreateUserUseCase } from './application/create-user.usecase';
+import { BcryptPasswordHasher } from './infrastructure/bcrypt-password-hasher';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserOrmEntity])],
@@ -12,7 +13,11 @@ import { CreateUserUseCase } from './application/create-user.usecase';
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
+    {
+      provide: 'IPasswordHasher',
+      useClass: BcryptPasswordHasher,
+    },
   ],
-  exports: ['IUserRepository', CreateUserUseCase],
+  exports: ['IUserRepository', CreateUserUseCase, 'IPasswordHasher'],
 })
 export class UsersModule {}

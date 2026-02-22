@@ -7,10 +7,10 @@ import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: 'db.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // dev only
+      synchronize: false,
     }),
     UsersModule,
     AuthModule,
