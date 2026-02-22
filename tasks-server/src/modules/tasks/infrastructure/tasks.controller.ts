@@ -17,12 +17,14 @@ import { DeleteTaskUseCase } from '../application/delete-task.usecase';
 import * as authRequestInterface from 'src/modules/auth/infrastructure/auth-request.interface';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { GetTaskUseCase } from '../application/get-task.usecase';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('tasks')
 export class TasksController {
   constructor(
     private readonly getTasks: GetTasksUseCase,
+    private readonly getTask: GetTaskUseCase,
     private readonly createTask: CreateTaskUseCase,
     private readonly updateTask: UpdateTaskUseCase,
     private readonly deleteTask: DeleteTaskUseCase,
@@ -30,7 +32,15 @@ export class TasksController {
 
   @Get()
   getAll(@Request() req: authRequestInterface.AuthRequest) {
-    return this.getTasks.execute(req.user.sub);
+    return this.getTasks.execute(req.user.id);
+  }
+
+  @Get(':id')
+  getOne(
+    @Param('id') id: string,
+    @Request() req: authRequestInterface.AuthRequest,
+  ) {
+    return this.getTask.execute(req.user.id, +id);
   }
 
   @Post()
@@ -41,7 +51,7 @@ export class TasksController {
     return this.createTask.execute(
       body.title,
       body.description,
-      req.user.sub,
+      req.user.id,
       body.date,
       body.status,
       body.priority,
@@ -61,7 +71,7 @@ export class TasksController {
       body.dueDate,
       body.status,
       body.priority,
-      req.user.sub,
+      req.user.id,
     );
   }
 

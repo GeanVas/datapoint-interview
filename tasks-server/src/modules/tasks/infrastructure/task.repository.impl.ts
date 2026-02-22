@@ -29,6 +29,26 @@ export class TaskRepository implements ITaskRepository {
     );
   }
 
+  async findByIdAndByOwner(id: number, ownerId: number): Promise<Task> {
+    const t = await this.repo.findOneBy({ id, ownerId });
+
+    if (!t) {
+      throw new Error('Task not found');
+    }
+
+    return new Task(
+      t.id,
+      t.title,
+      t.description,
+      t.status,
+      t.priority,
+      t.dueDate,
+      t.ownerId,
+      t.createdAt,
+      t.updatedAt,
+    );
+  }
+
   async create(task: Task): Promise<Task> {
     const saved = await this.repo.save({
       title: task.title,
@@ -37,6 +57,7 @@ export class TaskRepository implements ITaskRepository {
       status: task.status,
       priority: task.priority,
       ownerId: task.ownerId,
+      createdAt: task.createdAt,
     });
 
     return new Task(
