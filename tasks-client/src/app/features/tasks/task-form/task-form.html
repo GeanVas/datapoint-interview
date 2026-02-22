@@ -1,1 +1,123 @@
-<p>tasks-form works!</p>
+<div
+  class="bg-white m-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden"
+>
+  <form class="p-6 md:p-8 space-y-8" [formGroup]="form" (ngSubmit)="saveTask()">
+    <!-- Title Input -->
+    <div class="space-y-2">
+      <label class="text-sm font-semibold text-slate-700" for="task-title"
+        >Task Title <span class="text-red-500">*</span></label
+      >
+      <input
+        class="w-full px-4 py-3 rounded-lg border border-slate-300 bg-white text-lg font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400"
+        id="task-title"
+        placeholder="e.g. Q4 Marketing Strategy Review"
+        required=""
+        type="text"
+        formControlName="title"
+      />
+    </div>
+    <!-- Description Textarea -->
+    <div class="space-y-2">
+      <label class="text-sm font-semibold text-slate-700" for="task-desc"
+        >Description</label
+      >
+      <textarea
+        class="w-full px-4 py-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-400 resize-none"
+        id="task-desc"
+        placeholder="Outline the main goals and key stakeholders for this task..."
+        rows="4"
+        formControlName="description"
+      ></textarea>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Severity Segmented Control -->
+      <div class="space-y-3">
+        <label class="text-sm font-semibold text-slate-700">Priority</label>
+        <div class="flex p-1 bg-slate-100 rounded-lg">
+          <label class="flex-1 cursor-pointer">
+            <input class="sr-only peer" type="radio" value="low" formControlName="priority" />
+            <div
+              class="py-2 text-center text-sm font-medium rounded-md transition-all peer-checked:bg-white peer-checked:text-green-600 peer-checked:shadow-sm text-slate-500"
+            >
+              Low
+            </div>
+          </label>
+          <label class="flex-1 cursor-pointer">
+            <input checked="" class="sr-only peer" type="radio" value="medium" formControlName="priority" />
+            <div
+              class="py-2 text-center text-sm font-medium rounded-md transition-all peer-checked:bg-white peer-checked:text-amber-600 peer-checked:shadow-sm text-slate-500"
+            >
+              Medium
+            </div>
+          </label>
+          <label class="flex-1 cursor-pointer">
+            <input class="sr-only peer" type="radio" value="high" formControlName="priority" />
+            <div
+              class="py-2 text-center text-sm font-medium rounded-md transition-all peer-checked:bg-white peer-checked:text-red-600 peer-checked:shadow-sm text-slate-500"
+            >
+              High
+            </div>
+          </label>
+        </div>
+      </div>
+      <!-- Status Dropdown -->
+      <div class="space-y-3">
+        <label class="text-sm font-semibold text-slate-700" for="task-status"
+          >Status</label
+        >
+        <div class="relative">
+          <select
+            class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-300 bg-white appearance-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+            id="task-status"
+            formControlName="status"
+          >
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+          <span
+            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+    <!-- Due Date Picker -->
+    <div class="space-y-3 max-w-sm">
+      <label class="text-sm font-semibold text-slate-700" for="due-date"
+        >Due Date</label
+      >
+      <div class="relative">
+        <input
+          class="w-full pl-11 pr-4 py-2.5 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+          id="due-date"
+          name="due_date"
+          type="date"
+          formControlName="dueDate"
+        />
+        <span
+          class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+          ></span
+        >
+      </div>
+    </div>
+    <!-- Form Actions -->
+    <div
+      class="pt-8 border-t border-slate-100 flex items-center justify-end gap-4"
+    >
+      <button
+        class="cursor-pointer px-6 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
+        type="button"
+        (click)="returnToList()"
+      >
+        Cancel
+      </button>
+      <button
+        class="cursor-pointer px-8 py-2.5 rounded-lg text-sm font-bold bg-blue-500 text-white hover:bg-blue-500/90 shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all"
+        type="submit"
+      >
+        {{ taskId ? 'Update' : 'Create' }} Task
+      </button>
+    </div>
+  </form>
+</div>

@@ -26,4 +26,8 @@ export class TaskApi {
   updateTask(id: number, task: Partial<Omit<Task, 'id' | 'createdAt' | 'updatedAt'>>): Observable<Task> {
     return this.httpClient.put<Task>(`${this.apiUrl}/${id}`, task);
   }
+
+  deleteTask(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

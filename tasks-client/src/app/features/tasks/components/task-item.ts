@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Task } from '../../../shared/models/task';
 import { getStatusLabel } from '../../../shared/helpers/status';
@@ -28,14 +28,25 @@ import { getStatusLabel } from '../../../shared/helpers/status';
       </div>
     </div>
     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-      <button class="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600">
+      <button
+        class="cursor-pointer p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600"
+        (click)="onEdit.emit()"
+      >
         <span class="material-symbols-outlined">edit</span>
+      </button>
+      <button
+        class="cursor-pointer p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600"
+        (click)="onDelete.emit()"
+      >
+        <span class="material-symbols-outlined">delete</span>
       </button>
     </div>
   </div>`,
 })
 export class TaskItem {
   task = input.required<Task>();
+  onEdit = output<void>();
+  onDelete = output<void>();
 
   statusLabel() {
     return getStatusLabel(this.task().status);
