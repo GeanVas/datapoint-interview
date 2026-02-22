@@ -11,7 +11,7 @@ import { getStatusLabel } from '../../../shared/helpers/status';
   >
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-3">
-        <h4 class="text-sm font-bold text-slate-900  truncate">
+        <h4 class="font-bold text-slate-900  truncate">
           {{ task().title }}
         </h4>
         <span
@@ -19,10 +19,11 @@ import { getStatusLabel } from '../../../shared/helpers/status';
           >{{ statusLabel() }}</span
         >
       </div>
+      <p class="text-slate-500 mt-1 truncate">{{ task().description }}</p>
       <div class="flex items-center gap-4 mt-1">
         <div class="flex items-center gap-1 text-xs text-slate-500">
-          <span class="material-symbols-outlined text-sm">calendar_today</span>
-          {{ task().date | date: 'yyyy-MM-dd' }}
+          <span class="material-symbols-outlined text-sm"></span>
+          {{ task().dueDate | date: 'yyyy-MM-dd' }}
         </div>
       </div>
     </div>
