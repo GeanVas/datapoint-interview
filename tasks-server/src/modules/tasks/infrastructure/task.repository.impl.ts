@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { ITaskRepository } from '../domain/task.repository';
 import { Task } from '../domain/task.entity';
 import { TaskOrmEntity } from './task.orm-entity';
+import { TaskStatus } from '../domain/task-status.enum';
 
 export class TaskRepository implements ITaskRepository {
   constructor(
@@ -10,8 +11,15 @@ export class TaskRepository implements ITaskRepository {
     private repo: Repository<TaskOrmEntity>,
   ) {}
 
-  async findAllByUser(userId: number): Promise<Task[]> {
-    const tasks = await this.repo.find({ where: { ownerId: userId } });
+  async findAllByUser(userId: number, status?: TaskStatus): Promise<Task[]> {
+    const query = this.repo
+      .createQueryBuilder('task')
+      .where('task.ownerId = :userId', { userId });
+
+    if (status) {
+      query.andWhere('task.status = :status', { status });
+    }
+    const tasks = await query.getMany();
 
     return tasks.map(
       (t) =>

@@ -8,6 +8,7 @@ import {
   Param,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetTasksUseCase } from '../application/get-tasks.usecase';
@@ -18,6 +19,7 @@ import * as authRequestInterface from 'src/modules/auth/infrastructure/auth-requ
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { GetTaskUseCase } from '../application/get-task.usecase';
+import { TaskStatus } from '../domain/task-status.enum';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('tasks')
@@ -31,8 +33,11 @@ export class TasksController {
   ) {}
 
   @Get()
-  getAll(@Request() req: authRequestInterface.AuthRequest) {
-    return this.getTasks.execute(req.user.id);
+  getAll(
+    @Request() req: authRequestInterface.AuthRequest,
+    @Query('status') status?: TaskStatus,
+  ) {
+    return this.getTasks.execute(req.user.id, status);
   }
 
   @Get(':id')
