@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000',
-  production: true
+  apiUrl: 'https://datapoint-interview.onrender.com',
+  production: true,
 };
