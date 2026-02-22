@@ -3,14 +3,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TaskItem } from '../components/task-item';
 import { Task } from '../../../shared/models/task';
 import { TaskApi } from '../../../core/services/task-api';
+import { Status } from '../../../shared/models/status';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
-  imports: [TaskItem],
+  imports: [TaskItem, ReactiveFormsModule],
   templateUrl: './task-list.html',
 })
 export class TaskList implements OnInit {
   tasks = signal<Task[]>([]);
+  statusControl = new FormControl('all');
 
   private readonly taskApi = inject(TaskApi);
   private readonly router = inject(Router);
@@ -18,6 +21,19 @@ export class TaskList implements OnInit {
 
   ngOnInit(): void {
     this.taskApi.getTasks().subscribe({
+      next: (tasks) => {
+        this.tasks.set(tasks);
+      },
+    });
+
+    this.statusControl.valueChanges.subscribe((status) => {
+      this.filterByStatus(status as Status);
+    });
+  }
+
+  filterByStatus(status: Status | 'all') {
+    const statusFilter = status === 'all' ? undefined : status;
+    this.taskApi.getTasks(statusFilter).subscribe({
       next: (tasks) => {
         this.tasks.set(tasks);
       },
